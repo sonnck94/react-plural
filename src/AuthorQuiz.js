@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
 
-class AuthorQuiz extends Component {
-  render() {
-    return (
-      <div className="container-fluid">
+function AuthorQuiz({turnData}){
+  return (
+    <div className="container-fluid">
         <Hero />
-        <Turn />
+        <Turn {...turnData}/>
         <Continue />
         <Footer />
       </div>
-    );
-  }
+  )
 }
 
 function Hero(){
@@ -26,7 +24,7 @@ function Hero(){
 }
 function Book({title}){
   return(
-    <div>
+    <div className="answer">
        <h4>{title}</h4> 
     </div>
   ); 
@@ -36,10 +34,10 @@ function Turn({author, books}){
   return (
   <div className="row turn" style={{backgroundColor: "white"}}>
     <div className="col-4 offset-1">
-      <img src="{author.imageUrl}" className="authorimage" alt="Willima"></img>
+      <img src={author.imageUrl} className="authorimage" alt="William"></img>
     </div>
     <div className="col-6">
-      {books.maps((title) => <Book title={title} key={title} />) }
+      {books.map((title) => <Book title={title} key={title} />) }
     </div>
   </div>);
 }
