@@ -1,19 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import './App.css';
 
-function AuthorQuiz({turnData, highlight, onAnswerSelected, onContinue}){
-  return (
-    <div className="container-fluid">
-        <Hero />
-        <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}/>
-        <Continue show={highlight === 'correct'} onContinue={onContinue} />
-        <p><Link to="/add">Add an author</Link></p>
-        <Footer />
-      </div>
-  )
+function mapStateToProps(state){
+  return{
+    turnData: state.turnData,
+    highlight: state.highlight
+  }
 }
+
+function mapDispatchProps(dispatch){
+  return{
+    onAnswerSelected: (answer) => {
+      dispatch({type: 'ANSWER_SELECTED', answer})
+    }, 
+    onContinue: () => {
+      dispatch({type: 'CONTINUE'})
+    }
+  }
+}
+
+const AuthorQuiz = connect(mapStateToProps,mapDispatchProps)(
+  function ({turnData, highlight, onAnswerSelected, onContinue}){
+    return (
+      <div className="container-fluid">
+          <Hero />
+          <Turn {...turnData} highlight={highlight} onAnswerSelected={onAnswerSelected}/>
+          <Continue show={highlight === 'correct'} onContinue={onContinue} />
+          <p><Link to="/add">Add an author</Link></p>
+          <Footer />
+        </div>
+    )
+  }
+)
 
 function Hero(){
   return (
